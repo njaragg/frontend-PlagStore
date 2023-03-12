@@ -1,12 +1,19 @@
 import './App.css';
 import CardBase from './components/CardBase';
-import { TabListBase } from './components/TabListBase';
+import ChartDonut from './components/ChartDonut';
+import TabListBase  from './components/TabListBase';
+import DashBoardBase  from './components/DashBoardBase';
+import CardGridMap from './components/CardGridMap';
 
 function App() {
   return (
     <>
     {/* <CardBase/> */}
-    <TabListBase/>
+    {/* <TabListBase/> */}
+    <DashBoardBase></DashBoardBase>
+    {/* <CardGridMap></CardGridMap> */}
+    {/* <ChartDonut></ChartDonut> */}
+    
     </>
   );
 }
