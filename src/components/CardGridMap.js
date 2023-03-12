@@ -66,7 +66,7 @@ const CardGridMap = () => {
 
 
     return (
-        <ColGrid numColsMd={2} numColsLg={4} marginTop="mt-6" gapX='gap-x-6' gapY='gap-y-6'>
+        <ColGrid  numColsMd={2} numColsLg={4} marginTop="mt-6" gapX='gap-x-6' gapY='gap-y-6'>
             {sales.map( (item)=>(
                 <Card key={ item.categoria }>
                 <Flex alignItems="items-start">

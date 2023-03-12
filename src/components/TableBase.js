@@ -1,28 +1,32 @@
-import { Badge, Card, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Title } from '@tremor/react'
+import { Badge, Card, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, TextInput, Title } from '@tremor/react'
 import React, { useEffect, useState } from 'react'
-import {CameraIcon} from '@heroicons/react/24/solid'
-import {getLast15Sales, getCategoriesSales} from "../services/Servicios.js";
+import {CheckIcon, ExclamationCircleIcon,XMarkIcon} from '@heroicons/react/24/outline'
+import {getLast15Sales} from "../services/Servicios.js";
 
 
 const TableBase = () => {
     const [sales, setSales] = useState([]);
-    
+    const [search,setSearch] = useState("")
+
     const buscarData = async function(){
         const response = await getLast15Sales();
         const newResponse = response.map((item) => {
-            let estado, color;
+            let estado, color, icon;
             if (item[7] === 0) {
                 estado='Pagado'
                 color= 'teal'
+                icon=CheckIcon
                 
             }
             else if (item[7] === 1) {
                 estado='Pendiente'
                 color= 'amber'
+                icon=ExclamationCircleIcon
             }
             else if (item[7] === 2) {
                 estado="Cancelado"
                 color= 'red'
+                icon=XMarkIcon
             }
 
             return {
@@ -34,12 +38,36 @@ const TableBase = () => {
                 total: item[5],
                 categoria: item[6],
                 estado: estado,
-                color: color
+                color: color,
+                icon:icon
             };
         });
 
         setSales(newResponse);
     }
+
+    //funcion de busqueda
+    const searcher = (e) => {
+        setSearch(e.target.value)
+        // console.log(e.target.value)
+    }
+    
+
+    //metodo de filtrado
+    let filtrados=[]
+    if (!search) {
+        filtrados=sales
+    }
+    else{
+        filtrados = sales.filter( (dato) => dato.cliente.toLowerCase().includes(search.toLocaleLowerCase())
+        )
+    }
+
+
+
+
+
+
 
     useEffect(() => {
         buscarData();
@@ -50,8 +78,9 @@ const TableBase = () => {
     return (
         <Card>
             <Title>Ultimas 15 ventas</Title>
-            <Table>
-                <TableHead>
+            <TextInput marginTop='mt-4' maxWidth='max-w-xs' placeholder="Buscar por nombre del cliente..." value={search} onChange={searcher}/>
+            <Table marginTop='mt-4'>
+                <TableHead> 
                     <TableRow>
                         <TableHeaderCell textAlignment='text-center'>Fecha</TableHeaderCell>
                         <TableHeaderCell textAlignment='text-center'>Cliente</TableHeaderCell>
@@ -67,7 +96,7 @@ const TableBase = () => {
                 </TableHead>
                 <TableBody>
                     {
-                    sales.map((item) => (
+                    filtrados.map((item) => (
                         <TableRow>
                             <TableCell textAlignment='text-center'>{item.fecha.slice(0, 10)}</TableCell>
                             <TableCell textAlignment='text-center'>{item.cliente}</TableCell>
@@ -76,7 +105,7 @@ const TableBase = () => {
                             <TableCell textAlignment='text-center'>{item.precioUnitario}</TableCell>
                             <TableCell textAlignment='text-center'><b>{item.total}</b></TableCell>
                             <TableCell textAlignment='text-center'>{item.categoria}</TableCell>
-                            <TableCell textAlignment='text-center'><Badge text={item.estado} color={item.color} /></TableCell>
+                            <TableCell textAlignment='text-center'><Badge text={item.estado} color={item.color} icon={item.icon} /></TableCell>
                         </TableRow>
 
                     ))

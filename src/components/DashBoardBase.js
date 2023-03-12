@@ -1,66 +1,53 @@
-import { Block, Card, ColGrid, Tab, TabList, Text, Title } from '@tremor/react'
-import React, { useState } from 'react'
-import BarChart from './BarChart'
-import CardGridMap from './CardGridMap'
-import ChartDonut from './ChartDonut'
-import TableBase from './TableBase'
+import { Block, Card, Tab, TabList, Text, Title } from "@tremor/react";
+import {DocumentTextIcon, DocumentChartBarIcon} from '@heroicons/react/24/outline'
+import React, { useState } from "react";
+import CardGridMap from "./CardGridMap";
+import ChartBar from "./ChartBar";
+import ChartLine from "./ChartLine";
+import TableBase from "./TableBase";
+
 
 const DashBoardBase = () => {
-    const[selectedView, setSelectedView]= useState(1)
-  return (
-    
-    <main className='bg-slate-200 p-6 sm:p-10'>
-        <Title>Dashboard</Title>
-        <Text>Ejemplo de Dashboard</Text>
+    const [selectedView, setSelectedView] = useState(1);
+    return (
+        <main className="bg-slate-200 p-6 sm:p-10">
+            <Title>Plag Store</Title>
+            <Text>Tu tienda de convenecia</Text>
 
-        <TabList 
-            defaultValue={selectedView}
-            handleSelect={value => setSelectedView(value)}
-            marginTop="mt-6"
-        >
-            <Tab value={1} text="Principal"></Tab>
-            <Tab value={2} text="Registros"></Tab>
-            <Tab value={3} text="Registros"></Tab>
-        </TabList>
+            <TabList
+                defaultValue={selectedView}
+                handleSelect={(value) => setSelectedView(value)}
+                marginTop="mt-4"
+                color="stone"
+            >
+                <Tab icon={DocumentChartBarIcon} value={1} text="Principal"></Tab>
+                <Tab icon={DocumentTextIcon} value={2} text="Registros de ventas"></Tab>
+            </TabList>
 
-        {selectedView === 1 ? (
-        //if que contiene la pestaña principal, los 4 cuadros y el grafico de abajo
-        <>
-        
-        <CardGridMap></CardGridMap>
-        {/* grafico  */}
-        <Block marginTop='mt-6'>
-            {/* <ChartDonut></ChartDonut> */}
-            <BarChart></BarChart>
-        </Block>
-        </>
-        
+            {selectedView === 1 ? (
+                //if que contiene la pestaña principal, los 4 cuadros y el grafico de abajo
+                <>
+                    <CardGridMap></CardGridMap>
+                    {/* grafico  */}
+                    <Block marginTop="mt-6">
+                        {/* <ChartDonut></ChartDonut> */}
+                        <ChartBar></ChartBar>
+                    </Block>
+                    <Block marginTop="mt-6">
+                        <ChartLine></ChartLine>
+                    </Block>
+                </>
+            ) : (
+                //else
+                // Segunda pestaña, en este caso los registros
+                <Block marginTop="mt-6">
+                    <Card>
+                        <TableBase></TableBase>
+                    </Card>
+                </Block>
+            )}
+        </main>
+    );
+};
 
-    ) : (selectedView === 2 ? (
-        //else
-        // Segunda pestaña, en este caso los registros
-        <Block marginTop='mt-6'>
-            <Card>
-                <TableBase></TableBase>
-            </Card>
-
-        </Block>
-        ) : (
-            <><Card>
-                <ChartDonut></ChartDonut>
-            </Card></>
-        )
-
-    )
-
-        
-
-
-
-
-    }
-    </main>
-  )
-}
-
-export default DashBoardBase
+export default DashBoardBase;
