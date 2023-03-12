@@ -12,7 +12,7 @@ const DashBoardBase = () => {
     return (
         <main className="bg-slate-200 p-6 sm:p-10">
             <Title>Plag Store</Title>
-            <Text>Tu tienda de convenecia</Text>
+            <Text>Tu tienda de conveniencia</Text>
 
             <TabList
                 defaultValue={selectedView}
